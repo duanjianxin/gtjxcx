@@ -1,0 +1,302 @@
+<view class="mapWarp">
+
+    <!-- bindmarkertap 点击标记点时触发 -->
+    <!-- bindcallouttap 点击标记点对应的气泡时触发 -->
+    <!-- bindregionchange  视野发生变化时触发-->
+    <map class="map" id="map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}"
+        polygons="{{polygons}}" scale="{{scale}}" show-location="true" bindmarkertap="makertap" style="width: 100%; height: 100vh;">
+        <!-- table -->
+        <cover-view class="tableWarp">
+            <button plain="true" class="{{tabSelect=='map' ? 'select' : ''}}" bindtap="tabChange('map')">地图</button>
+            <button plain="true" class="{{tabSelect=='list' ? 'select' : ''}}" bindtap="tabChange('list')">列表</button>
+        </cover-view>
+        <cover-view wx:if="{{tabSelect=='map'}}">
+            <cover-view class="mapWarp">
+                <!-- 按钮图标 -->
+                <cover-view>
+                    <button class="locationBtn" bindtap="controltap">
+                        <cover-view class="iconfont icon-map_control_icon_loc"></cover-view>
+                    </button>
+                    <cover-view class="scaleBox">
+                        <!-- 添加 -->
+                        <button class="addBtn" bindtap="addScale">
+                            <cover-view class="iconfont icon-map_control_icon_zoo1"></cover-view>
+                        </button>
+                        <button class="reduceBtn" bindtap="reduceScale">
+                            <!-- 缩放 -->
+                            <cover-view class="iconfont icon-map_control_icon_zoo"></cover-view>
+                        </button>
+                    </cover-view>
+                    <cover-view class="shapeBox">
+                        <!-- 添加自定义图形 -->
+                        <button class="shape" bindtap="addPolygons">
+                            <cover-view class="iconfont icon-map_control_icon_wei"></cover-view>
+                        </button>
+                    </cover-view>
+                </cover-view>
+                <!-- 卫片详情信息 -->
+                <cover-view class="delBox" wx-if="{{satelliteInformationShow}}">
+                    <cover-view class="satelliteInformation">
+                        <cover-view class="title"> 卫片信息</cover-view>
+                        <cover-view class="Close" bindtap="tabSatelliteInformation">X</cover-view>
+                        <cover-view class="centorBox">
+                            <cover-view class="centorBoxRow">
+                                <cover-view class="name">行政区:</cover-view>
+                                <cover-view class="value">盐田区</cover-view>
+                            </cover-view>
+                            <cover-view class="centorBoxRow">
+                                <cover-view class="name">街道:</cover-view>
+                                <cover-view class="value">盐田</cover-view>
+                            </cover-view>
+                            <cover-view class="centorBoxRow">
+                                <cover-view class="name">社区:</cover-view>
+                                <cover-view class="value">东海</cover-view>
+                            </cover-view>
+                            <cover-view class="centorBoxRow">
+                                <cover-view class="name">转用征收手续挂接:</cover-view>
+                                <cover-view class="value">深国土征字(1991)007号.深国土征字(1991)002号</cover-view>
+                            </cover-view>
+                        </cover-view>
+                    </cover-view>
+                </cover-view>
+
+                <!-- 执法人员详情 -->
+                <cover-view class="personnelDelWarp" wx-if="{{personnelDel.show}}">
+                    <cover-view class="personnelDelBox">
+                        <cover-view class="personnel">
+                            <cover-view class="left">
+                                <cover-image class="headImg" src=""></cover-image>
+                                <cover-view class="del">
+                                    <cover-view class="name">
+                                        执法人员1
+                                    </cover-view>
+                                    <cover-view class="distance">
+                                        1.2 km
+                                    </cover-view>
+                                </cover-view>
+                            </cover-view>
+                            <cover-view class="more">
+                                <cover-view class="iconfont icon-map_card_icon_unfold" bindtap="tabSersonnelDel"></cover-view>
+                            </cover-view>
+                        </cover-view>
+                        <cover-view class="personnelDel" wx-if="{{personnelDel.delShow}}">
+                            <cover-view class="del">
+                                <cover-view class="lineDelBox">
+                                    <cover-view>同行人员</cover-view>
+                                    <cover-view>无</cover-view>
+                                </cover-view>
+                                <cover-view class="lineDelBox">
+                                    <cover-view>联系方式</cover-view>
+                                    <cover-view>17689656543</cover-view>
+                                </cover-view>
+                                <cover-view class="lineDelBox">
+                                    <cover-view>所属部门</cover-view>
+                                    <cover-view>通信部</cover-view>
+                                </cover-view>
+                                <cover-view class="lineDelBox">
+                                    <cover-view>巡查里程</cover-view>
+                                    <cover-view>16.9 km</cover-view>
+                                </cover-view>
+                                <cover-view class="lineDelBox">
+                                    <cover-view>在线时长</cover-view>
+                                    <cover-view>00:00:00</cover-view>
+                                </cover-view>
+                            </cover-view>
+                            <cover-view class="btnList">
+                                <cover-view class="iconfont icon-map_card_icon_path_n" bindtap="pathBtn"></cover-view>
+                                <cover-view class="iconfont icon-map_card_icon_comman" bindtap="commanBtn"></cover-view>
+                                <cover-view class="iconfont icon-map_card_icon_video_" bindtap="videoBtn"></cover-view>
+                                <cover-view class="iconfont icon-map_card_icon_call_n" bindtap="callBtn"></cover-view>
+                            </cover-view>
+                        </cover-view>
+                    </cover-view>
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view wx:else>
+            <cover-view class="listWarp">
+                <cover-view class="listWarpBox" scroll-top="5">
+                    <cover-view class="list">
+                        <cover-view class="personnelDelBox">
+                            <cover-view class="personnel">
+                                <cover-view class="left">
+                                    <cover-image class="headImg" src=""></cover-image>
+                                    <cover-view class="del">
+                                        <cover-view class="name">
+                                            执法人员1
+                                        </cover-view>
+                                        <cover-view class="distance">
+                                            1.2 km
+                                        </cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="more">
+                                    <cover-view class="iconfont icon-map_card_icon_unfold"></cover-view>
+                                </cover-view>
+                            </cover-view>
+                            <cover-view class="personnelDel">
+                                <cover-view class="del">
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>同行人员</cover-view>
+                                        <cover-view>无</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>联系方式</cover-view>
+                                        <cover-view>17689656543</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>所属部门</cover-view>
+                                        <cover-view>通信部</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>巡查里程</cover-view>
+                                        <cover-view>16.9 km</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>在线时长</cover-view>
+                                        <cover-view>00:00:00</cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="btnList">
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_locate"></cover-view>
+                                    <cover-view class="iconfont icon-map_card_icon_path_n"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_comman"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_video_"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_call_n"></cover-view>
+                                    <!-- </button> -->
+                                </cover-view>
+                            </cover-view>
+                        </cover-view>
+                    </cover-view>
+                    <cover-view class="list">
+                        <cover-view class="personnelDelBox">
+                            <cover-view class="personnel">
+                                <cover-view class="left">
+                                    <cover-image class="headImg" src=""></cover-image>
+                                    <cover-view class="del">
+                                        <cover-view class="name">
+                                            执法人员1
+                                        </cover-view>
+                                        <cover-view class="distance">
+                                            1.2 km
+                                        </cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="more">
+                                    <cover-view class="iconfont icon-map_card_icon_unfold"></cover-view>
+                                </cover-view>
+                            </cover-view>
+                            <cover-view class="personnelDel" style="display:none;">
+                                <cover-view class="del">
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>同行人员</cover-view>
+                                        <cover-view>无</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>联系方式</cover-view>
+                                        <cover-view>17689656543</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>所属部门</cover-view>
+                                        <cover-view>通信部</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>巡查里程</cover-view>
+                                        <cover-view>16.9 km</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>在线时长</cover-view>
+                                        <cover-view>00:00:00</cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="btnList">
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_locate"></cover-view>
+                                    <cover-view class="iconfont icon-map_card_icon_path_n"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_comman"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_video_"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_call_n"></cover-view>
+                                    <!-- </button> -->
+                                </cover-view>
+                            </cover-view>
+                        </cover-view>
+                    </cover-view>
+                    <cover-view class="list">
+                        <cover-view class="personnelDelBox">
+                            <cover-view class="personnel">
+                                <cover-view class="left">
+                                    <cover-image class="headImg" src=""></cover-image>
+                                    <cover-view class="del">
+                                        <cover-view class="name">
+                                            执法人员1
+                                        </cover-view>
+                                        <cover-view class="distance">
+                                            1.2 km
+                                        </cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="more">
+                                    <cover-view class="iconfont icon-map_card_icon_unfold"></cover-view>
+                                </cover-view>
+                            </cover-view>
+                            <cover-view class="personnelDel">
+                                <cover-view class="del">
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>同行人员</cover-view>
+                                        <cover-view>无</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>联系方式</cover-view>
+                                        <cover-view>17689656543</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>所属部门</cover-view>
+                                        <cover-view>通信部</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>巡查里程</cover-view>
+                                        <cover-view>16.9 km</cover-view>
+                                    </cover-view>
+                                    <cover-view class="lineDelBox">
+                                        <cover-view>在线时长</cover-view>
+                                        <cover-view>00:00:00</cover-view>
+                                    </cover-view>
+                                </cover-view>
+                                <cover-view class="btnList">
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_locate"></cover-view>
+                                    <cover-view class="iconfont icon-map_card_icon_path_n"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_comman"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_video_"></cover-view>
+                                    <!-- </button> -->
+                                    <!-- <button plain="true"> -->
+                                    <cover-view class="iconfont icon-map_card_icon_call_n"></cover-view>
+                                    <!-- </button> -->
+                                </cover-view>
+                            </cover-view>
+                        </cover-view>
+                    </cover-view>
+                    <!-- 占位 -->
+                    <cover-view class="seatBox"></cover-view>
+                </cover-view>
+            </cover-view>
+        </cover-view>
+    </map>
+</view>

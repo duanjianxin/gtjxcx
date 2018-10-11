@@ -1,0 +1,36 @@
+{
+  "pages": ["pages/map/map", "pages/statistics/statistics", "pages/journal/journal", "pages/info/info"],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#888899",
+    "selectedColor": "#1177E7",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [{
+      "pagePath": "pages/map/map",
+      "text": "地图",
+      "iconPath": "./lib/images/map_tab_icon_homepage_normal@3x.png",
+      "selectedIconPath": "./lib/images/map_tab_icon_homepage_selected@3x.png"
+    }, {
+      "pagePath": "pages/statistics/statistics",
+      "text": "统计",
+      "iconPath": "./lib/images/map_tab_icon_date_normal@3x.png",
+      "selectedIconPath": "./lib/images/map_tab_icon_date_selected@3x.png"
+    }, {
+      "pagePath": "pages/journal/journal",
+      "text": "日志",
+      "iconPath": "./lib/images/map_tab_icon_diary_normal@3x.png",
+      "selectedIconPath": "./lib/images/map_tab_icon_diary_selected@3x.png"
+    }, {
+      "pagePath": "pages/info/info",
+      "text": "我的",
+      "iconPath": "./lib/images/map_tab_icon_mine_normal@3x.png",
+      "selectedIconPath": "./lib/images/map_tab_icon_mine_selected@3x.png"
+    }]
+  }
+}
